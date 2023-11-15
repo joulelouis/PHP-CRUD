@@ -6,6 +6,9 @@
     <title>Document</title>
 </head>
 <body>
+    <div>
+        <a href="{{route('employee.index')}}">Back to Employees</a>
+    </div>
     <h1>Create Employee Information</h1>
     <div>
         @if($errors->any())
@@ -16,9 +19,7 @@
         </ul>
         @endif
     </div>
-    <div>
-        <a href="{{route('employee.index')}}">Back to Employees</a>
-    </div>
+    
     <form method="post" action="{{route('employee.store')}}">
         @csrf
         @method('post')

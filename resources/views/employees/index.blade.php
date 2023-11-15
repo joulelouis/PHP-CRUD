@@ -6,6 +6,9 @@
     <title>Document</title>
 </head>
 <body>
+        <div>
+            <a href="{{route('dashboard')}}">Back to Dashboard</a>
+        </div>
     <h1>Employees</h1>
     <div>
         @if(session()->has('success'))

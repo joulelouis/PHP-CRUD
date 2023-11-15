@@ -56,18 +56,14 @@ class EmployeeController extends Controller
         return redirect(route('employee.index'))->with('success', 'Employee Information Deleted Successfully');
     }
 
-    public function summary()
-    {
-        // Count of Male & Female employees
+    public function summary(){
         $genderCounts = Employee::select('gender', DB::raw('COUNT(*) as count'))
             ->groupBy('gender')
             ->get();
 
-        // Average age of all employees
         $averageAge = Employee::select(DB::raw('AVG(YEAR(CURDATE()) - YEAR(birthday)) as average_age'))
             ->first();
 
-        // Total monthly salary of all employees
         $totalSalary = Employee::sum('monthly_salary');
 
         return view('employees.employees-summary', compact('genderCounts', 'averageAge', 'totalSalary'));
