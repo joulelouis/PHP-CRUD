@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmployeeController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,16 +19,29 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/employee', [EmployeeController::class, 'index'])->name('employee.index');
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/employee/create', [EmployeeController::class, 'create'])->name('employee.create');
+Route::middleware('auth')->group(function () {
 
-Route::post('/employee', [EmployeeController::class, 'store'])->name('employee.store');
+    Route::get('/employee', [EmployeeController::class, 'index'])->name('employee.index');
 
-Route::get('/employee/{employee}/edit', [EmployeeController::class, 'edit'])->name('employee.edit');
+    Route::get('/employee/create', [EmployeeController::class, 'create'])->name('employee.create');
 
-Route::put('/employee/{employee}/update', [EmployeeController::class, 'update'])->name('employee.update');
+    Route::post('/employee', [EmployeeController::class, 'store'])->name('employee.store');
 
-Route::delete('/employee/{employee}/destroy', [EmployeeController::class, 'destroy'])->name('employee.destroy');
+    Route::get('/employee/{employee}/edit', [EmployeeController::class, 'edit'])->name('employee.edit');
 
-Route::get('/employee/summary', [EmployeeController::class, 'summary'])->name('employee.summary');
+    Route::put('/employee/{employee}/update', [EmployeeController::class, 'update'])->name('employee.update');
+
+    Route::delete('/employee/{employee}/destroy', [EmployeeController::class, 'destroy'])->name('employee.destroy');
+
+    Route::get('/employee/summary', [EmployeeController::class, 'summary'])->name('employee.summary');
+
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+require __DIR__.'/auth.php';
